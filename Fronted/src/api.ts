@@ -13,6 +13,17 @@ export type Servicio = {
   precio: number;
 };
 
+export type Reserva = {
+  id: number;
+  fecha: string;
+  hora: string;
+  estado: string;
+  usuarioId: number;
+  servicioId: number;
+  servicio?: Servicio;
+  usuario?: { id: number; nombre: string; email: string };
+};
+
 export type LoginResponse = {
   token?: string;
   error?: string;
@@ -66,6 +77,13 @@ export const api = {
     return revisarRespuesta(res);
   },
 
+  getServicio: async (token: string, id: number): Promise<Servicio | { error: string }> => {
+    const res = await fetch(`${API_URL}/servicios/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return revisarRespuesta(res);
+  },
+
   createServicio: async (
     token: string,
     nombre: string,
@@ -108,6 +126,61 @@ export const api = {
     id: number
   ): Promise<{ message: string } | { error: string }> => {
     const res = await fetch(`${API_URL}/servicios/${id}`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return revisarRespuesta(res);
+  },
+
+  crearReserva: async (
+    token: string,
+    servicioId: number,
+    fecha: string,
+    hora: string
+  ): Promise<Reserva | { error: string }> => {
+    const res = await fetch(`${API_URL}/reservas`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ servicioId, fecha, hora }),
+    });
+    return revisarRespuesta(res);
+  },
+
+  getMisReservas: async (token: string): Promise<Reserva[] | { error: string }> => {
+    const res = await fetch(`${API_URL}/reservas/mis-reservas`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return revisarRespuesta(res);
+  },
+
+  getReservas: async (token: string): Promise<Reserva[] | { error: string }> => {
+    const res = await fetch(`${API_URL}/reservas`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return revisarRespuesta(res);
+  },
+
+  cambiarEstado: async (
+    token: string,
+    id: number,
+    estado: string
+  ): Promise<Reserva | { error: string }> => {
+    const res = await fetch(`${API_URL}/reservas/${id}/estado`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ estado }),
+    });
+    return revisarRespuesta(res);
+  },
+
+  cancelarReserva: async (token: string, id: number): Promise<Reserva | { error: string }> => {
+    const res = await fetch(`${API_URL}/reservas/${id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
     });

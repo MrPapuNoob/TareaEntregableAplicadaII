@@ -3,6 +3,7 @@ import express from "express"
 import { logger } from "./middlewares/logger.middleware.js"
 import authRoutes from "./routes/auth.routes.js"
 import serviciosRoutes from "./routes/servicios.routes.js"
+import reservasRoutes from "./routes/reservas.routes.js"
 
 const app = express()
 app.use(logger)
@@ -14,6 +15,7 @@ app.get("/", (req, res) => {
 
 app.use("/auth", authRoutes)
 app.use("/servicios", serviciosRoutes)
+app.use("/reservas", reservasRoutes)
 
 app.use((err, req, res, next) => {
   console.log(err)

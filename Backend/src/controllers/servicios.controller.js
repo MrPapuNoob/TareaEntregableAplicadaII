@@ -9,6 +9,17 @@ export const getServicios = async (req, res, next) => {
   }
 }
 
+export const getServicio = async (req, res, next) => {
+  try {
+    const { id } = req.params
+    const servicio = await prisma.servicio.findUnique({ where: { id: Number(id) } })
+    if (!servicio) return res.status(404).json({ error: "Servicio no encontrado" })
+    res.json(servicio)
+  } catch (err) {
+    next(err)
+  }
+}
+
 export const createServicio = async (req, res, next) => {
   try {
     const { nombre, descripcion, duracion, precio } = req.body

@@ -93,16 +93,30 @@ export default function Servicios() {
         </TouchableOpacity>
       </View>
 
-      {rol === "admin" && (
-        <View style={styles.botones}>
-          <TouchableOpacity
-            style={styles.botonCrear}
-            onPress={() => router.push("/servicios/crear")}
-          >
-            <Text style={styles.botonCrearTexto}>+ Crear servicio</Text>
-          </TouchableOpacity>
-        </View>
-      )}
+      <View style={styles.botones}>
+        <TouchableOpacity
+          style={styles.botonNav}
+          onPress={() => router.push("/reservas")}
+        >
+          <Text style={styles.botonCrearTexto}>Mis reservas</Text>
+        </TouchableOpacity>
+        {rol === "admin" && (
+          <>
+            <TouchableOpacity
+              style={styles.botonCrear}
+              onPress={() => router.push("/servicios/crear")}
+            >
+              <Text style={styles.botonCrearTexto}>+ Crear servicio</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.botonNav, styles.botonAdmin]}
+              onPress={() => router.push("/reservas/admin")}
+            >
+              <Text style={styles.botonCrearTexto}>Todas las reservas</Text>
+            </TouchableOpacity>
+          </>
+        )}
+      </View>
 
       {error ? <Text style={styles.error}>{error}</Text> : null}
 
@@ -118,12 +132,16 @@ export default function Servicios() {
           }
           renderItem={({ item }) => (
             <View style={styles.card}>
-              <View style={{ flex: 1 }}>
+              {/* Al tocar el servicio se abre su detalle */}
+              <TouchableOpacity
+                style={{ flex: 1 }}
+                onPress={() => router.push(`/servicios/${item.id}`)}
+              >
                 <Text style={styles.nombre}>{item.nombre}</Text>
                 <Text style={styles.descripcion}>{item.descripcion}</Text>
                 <Text style={styles.detalle}>Duración: {item.duracion} min</Text>
                 <Text style={styles.precio}>${item.precio}</Text>
-              </View>
+              </TouchableOpacity>
               {rol === "admin" && (
                 <TouchableOpacity
                   style={styles.botonEliminar}
@@ -155,6 +173,9 @@ const styles = StyleSheet.create({
   rol: { fontSize: 12, color: "#6b7280" },
   logout: { color: "#dc2626", fontWeight: "bold" },
   botones: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 8,
     padding: 12,
     backgroundColor: "#fff",
     borderBottomWidth: 1,
@@ -166,6 +187,13 @@ const styles = StyleSheet.create({
     borderRadius: 6,
     alignItems: "center",
   },
+  botonNav: {
+    backgroundColor: "#1e3a8a",
+    padding: 12,
+    borderRadius: 6,
+    alignItems: "center",
+  },
+  botonAdmin: { backgroundColor: "#7c3aed" },
   botonCrearTexto: { color: "#fff", fontWeight: "bold" },
   error: { color: "#dc2626", textAlign: "center", marginTop: 16 },
   vacio: { textAlign: "center", color: "#6b7280", marginTop: 40 },

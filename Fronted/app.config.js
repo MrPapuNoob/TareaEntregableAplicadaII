@@ -20,7 +20,7 @@ export default {
     web: {
       bundler: "metro",
     },
-    plugins: ["expo-router", "expo-status-bar"],
+    plugins: ["expo-router", "expo-status-bar", "@react-native-community/datetimepicker"],
     extra: {
       apiUrl: process.env.API_URL,
     },

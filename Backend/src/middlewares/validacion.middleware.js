@@ -25,6 +25,26 @@ export const validarServicio = (req, res, next) => {
   next()
 }
 
+export const validarReserva = (req, res, next) => {
+  const { servicioId, fecha, hora } = req.body
+  if (!servicioId || !fecha || !hora) {
+    return res.status(400).json({ error: "servicioId, fecha y hora son requeridos" })
+  }
+  // fecha: AAAA-MM-DD, hora: HH:MM
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(fecha) || !/^\d{2}:\d{2}$/.test(hora)) {
+    return res.status(400).json({ error: "La fecha debe ser AAAA-MM-DD y la hora HH:MM" })
+  }
+  next()
+}
+
+export const validarEstado = (req, res, next) => {
+  const { estado } = req.body
+  if (estado !== "pendiente" && estado !== "completada" && estado !== "cancelada") {
+    return res.status(400).json({ error: "El estado debe ser pendiente, completada o cancelada" })
+  }
+  next()
+}
+
 export const validarId = (req, res, next) => {
   const { id } = req.params
   if (!id || isNaN(Number(id))) {
