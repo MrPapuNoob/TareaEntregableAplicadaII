@@ -11,6 +11,14 @@ export type Servicio = {
   descripcion: string;
   duracion: number;
   precio: number;
+  activo?: boolean;
+};
+
+export type Usuario = {
+  id: number;
+  nombre: string;
+  email: string;
+  rol: string;
 };
 
 export type Reserva = {
@@ -183,6 +191,25 @@ export const api = {
     const res = await fetch(`${API_URL}/reservas/${id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
+    });
+    return revisarRespuesta(res);
+  },
+
+  getPerfil: async (token: string): Promise<Usuario | { error: string }> => {
+    const res = await fetch(`${API_URL}/usuarios/perfil`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    return revisarRespuesta(res);
+  },
+
+  actualizarPerfil: async (token: string, nombre: string): Promise<Usuario | { error: string }> => {
+    const res = await fetch(`${API_URL}/usuarios/perfil`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ nombre }),
     });
     return revisarRespuesta(res);
   },

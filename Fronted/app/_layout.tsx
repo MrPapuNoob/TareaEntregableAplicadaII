@@ -1,6 +1,13 @@
+import { useEffect } from "react";
 import { Stack } from "expo-router";
+import { pedirPermisos } from "../src/notificaciones";
 
 export default function RootLayout() {
+  // Se piden los permisos de notificacion al iniciar la app
+  useEffect(() => {
+    pedirPermisos();
+  }, []);
+
   return (
     <Stack
       screenOptions={{
@@ -18,6 +25,7 @@ export default function RootLayout() {
       <Stack.Screen name="reservas/index" options={{ title: "Mis reservas" }} />
       <Stack.Screen name="reservas/nueva" options={{ title: "Nueva reserva" }} />
       <Stack.Screen name="reservas/admin" options={{ title: "Todas las reservas" }} />
+      <Stack.Screen name="perfil" options={{ title: "Mi perfil" }} />
     </Stack>
   );
 }

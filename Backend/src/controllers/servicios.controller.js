@@ -40,7 +40,7 @@ export const createServicio = async (req, res, next) => {
 export const updateServicio = async (req, res, next) => {
   try {
     const { id } = req.params
-    const { nombre, descripcion, duracion, precio } = req.body
+    const { nombre, descripcion, duracion, precio, activo } = req.body
     const existe = await prisma.servicio.findUnique({ where: { id: Number(id) } })
     if (!existe) return res.status(404).json({ error: "Servicio no encontrado" })
 
@@ -50,7 +50,9 @@ export const updateServicio = async (req, res, next) => {
         nombre,
         descripcion,
         duracion: Number(duracion),
-        precio: Number(precio)
+        precio: Number(precio),
+        // activo es opcional: si no se envia, se mantiene como estaba
+        ...(typeof activo === "boolean" && { activo })
       }
     })
     res.json(servicio)

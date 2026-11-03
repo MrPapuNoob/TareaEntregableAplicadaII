@@ -45,6 +45,14 @@ export const validarEstado = (req, res, next) => {
   next()
 }
 
+export const validarPerfil = (req, res, next) => {
+  const { nombre } = req.body
+  if (typeof nombre !== "string" || !nombre.trim()) {
+    return res.status(400).json({ error: "El nombre es requerido" })
+  }
+  next()
+}
+
 export const validarId = (req, res, next) => {
   const { id } = req.params
   if (!id || isNaN(Number(id))) {

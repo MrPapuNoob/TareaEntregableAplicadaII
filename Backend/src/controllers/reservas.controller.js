@@ -3,16 +3,35 @@ import { prisma } from "../db.js"
 export const crearReserva = async (req, res, next) => {
   try {
     const { servicioId, fecha, hora } = req.body
-    const servicio = await prisma.servicio.findUnique({ where: { id: Number(servicioId) } })
-    if (!servicio) return res.status(404).json({ error: "Servicio no encontrado" })
 
-    // No se puede reservar una fecha pasada
+    // Validacion 1: la fecha debe ser futura
     const fechaReserva = new Date(`${fecha}T${hora}:00`)
     if (isNaN(fechaReserva.getTime())) {
       return res.status(400).json({ error: "Fecha u hora invalida" })
     }
-    if (fechaReserva < new Date()) {
-      return res.status(400).json({ error: "No se puede reservar una fecha pasada" })
+    if (fechaReserva <= new Date()) {
+      return res.status(400).json({ error: "La fecha de la reserva debe ser futura" })
+    }
+
+    // Validacion 2: el servicio debe existir y estar activo
+    const servicio = await prisma.servicio.findUnique({ where: { id: Number(servicioId) } })
+    if (!servicio) return res.status(404).json({ error: "Servicio no encontrado" })
+    if (!servicio.activo) {
+      return res.status(400).json({ error: "El servicio no esta activo" })
+    }
+
+    // Validacion 3: no puede haber otra reserva activa del mismo usuario,
+    // para el mismo servicio, en la misma fecha
+    const duplicada = await prisma.reserva.findFirst({
+      where: {
+        usuarioId: req.usuario.id,
+        servicioId: servicio.id,
+        fecha,
+        estado: "pendiente"
+      }
+    })
+    if (duplicada) {
+      return res.status(409).json({ error: "Ya tienes una reserva activa para este servicio en esa fecha" })
     }
 
     // El estado inicial siempre es pendiente
@@ -23,7 +42,8 @@ export const crearReserva = async (req, res, next) => {
         estado: "pendiente",
         servicioId: servicio.id,
         usuarioId: req.usuario.id
-      }
+      },
+      include: { servicio: true }
     })
     res.status(201).json(reserva)
   } catch (err) {

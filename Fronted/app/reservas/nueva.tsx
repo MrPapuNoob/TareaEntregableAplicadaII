@@ -11,6 +11,7 @@ import { router, useLocalSearchParams } from "expo-router";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { api, Servicio } from "../../src/api";
 import { obtenerToken } from "../../src/auth";
+import { programarRecordatorio } from "../../src/notificaciones";
 
 // Agrega un 0 adelante: 5 -> "05"
 const dosDigitos = (n: number) => String(n).padStart(2, "0");
@@ -78,6 +79,8 @@ export default function NuevaReserva() {
       if ("error" in res) {
         setError(res.error);
       } else {
+        // Recordatorio 24 h antes (si falta menos de eso, no se programa)
+        await programarRecordatorio(res, servicio?.nombre || res.servicio?.nombre || "tu servicio");
         Alert.alert("Listo", "Reserva creada");
         router.replace("/reservas");
       }

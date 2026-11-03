@@ -100,6 +100,12 @@ export default function Servicios() {
         >
           <Text style={styles.botonCrearTexto}>Mis reservas</Text>
         </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.botonNav}
+          onPress={() => router.push("/perfil")}
+        >
+          <Text style={styles.botonCrearTexto}>Mi perfil</Text>
+        </TouchableOpacity>
         {rol === "admin" && (
           <>
             <TouchableOpacity

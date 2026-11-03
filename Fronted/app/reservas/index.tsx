@@ -11,6 +11,7 @@ import {
 import { router, useFocusEffect } from "expo-router";
 import { api, Reserva } from "../../src/api";
 import { obtenerToken } from "../../src/auth";
+import { cancelarRecordatorio } from "../../src/notificaciones";
 
 // Color segun el estado de la reserva
 const colorEstado = (estado: string) => {
@@ -65,6 +66,7 @@ export default function MisReservas() {
             if ("error" in res) {
               Alert.alert("Error", res.error);
             } else {
+              await cancelarRecordatorio(reserva.id);
               cargar();
             }
           } catch {
