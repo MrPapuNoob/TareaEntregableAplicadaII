@@ -1,4 +1,4 @@
-import { prisma } from "../db.js"
+import { prisma } from "../../db.js"
 
 export const crearReserva = async (req, res, next) => {
   try {

@@ -7,8 +7,8 @@ import {
   View,
 } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
-import { api, Servicio } from "../../src/api";
-import { obtenerToken } from "../../src/auth";
+import { api, Servicio } from "@/services/api";
+import { obtenerToken } from "@/lib/auth";
 
 export default function DetalleServicio() {
   const { id } = useLocalSearchParams<{ id: string }>();

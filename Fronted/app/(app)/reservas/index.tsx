@@ -9,16 +9,10 @@ import {
   View,
 } from "react-native";
 import { router, useFocusEffect } from "expo-router";
-import { api, Reserva } from "../../src/api";
-import { obtenerToken } from "../../src/auth";
-import { cancelarRecordatorio } from "../../src/notificaciones";
-
-// Color segun el estado de la reserva
-const colorEstado = (estado: string) => {
-  if (estado === "completada") return { color: "#065f46", backgroundColor: "#d1fae5" };
-  if (estado === "cancelada") return { color: "#991b1b", backgroundColor: "#fee2e2" };
-  return { color: "#92400e", backgroundColor: "#fef3c7" };
-};
+import { api, Reserva } from "@/services/api";
+import { obtenerToken } from "@/lib/auth";
+import { colorEstado } from "@/features/reservas/formato";
+import { cancelarRecordatorio } from "@/features/reservas/notificaciones";
 
 export default function MisReservas() {
   const [reservas, setReservas] = useState<Reserva[]>([]);

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { ActivityIndicator, View } from "react-native";
 import { router } from "expo-router";
-import { decodificarToken, eliminarToken, obtenerToken } from "../src/auth";
+import { decodificarToken, eliminarToken, obtenerToken } from "@/lib/auth";
 
 export default function Index() {
   useEffect(() => {

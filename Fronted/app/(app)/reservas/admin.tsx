@@ -9,15 +9,9 @@ import {
   View,
 } from "react-native";
 import { router } from "expo-router";
-import { api, Reserva } from "../../src/api";
-import { decodificarToken, obtenerToken } from "../../src/auth";
-
-// Color segun el estado de la reserva
-const colorEstado = (estado: string) => {
-  if (estado === "completada") return { color: "#065f46", backgroundColor: "#d1fae5" };
-  if (estado === "cancelada") return { color: "#991b1b", backgroundColor: "#fee2e2" };
-  return { color: "#92400e", backgroundColor: "#fef3c7" };
-};
+import { api, Reserva } from "@/services/api";
+import { decodificarToken, obtenerToken } from "@/lib/auth";
+import { colorEstado } from "@/features/reservas/formato";
 
 export default function AdminReservas() {
   const [reservas, setReservas] = useState<Reserva[]>([]);

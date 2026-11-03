@@ -7,7 +7,7 @@ import { scheduleNotificationAsync } from "expo-notifications/build/scheduleNoti
 import { cancelScheduledNotificationAsync } from "expo-notifications/build/cancelScheduledNotificationAsync";
 import { SchedulableTriggerInputTypes } from "expo-notifications/build/Notifications.types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Reserva } from "./api";
+import { Reserva } from "@/services/api";
 
 const UN_DIA_MS = 24 * 60 * 60 * 1000;
 

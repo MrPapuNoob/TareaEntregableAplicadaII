@@ -1,4 +1,4 @@
-import { prisma } from "../db.js"
+import { prisma } from "../../db.js"
 
 export const getServicios = async (req, res, next) => {
   try {

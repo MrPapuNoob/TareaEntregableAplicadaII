@@ -11,8 +11,8 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { router } from "expo-router";
-import { api } from "../../src/api";
-import { decodificarToken, obtenerToken } from "../../src/auth";
+import { api } from "@/services/api";
+import { decodificarToken, obtenerToken } from "@/lib/auth";
 
 export default function CrearServicio() {
   const [nombre, setNombre] = useState("");

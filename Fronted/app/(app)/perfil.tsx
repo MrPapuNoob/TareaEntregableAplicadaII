@@ -9,8 +9,8 @@ import {
   View,
 } from "react-native";
 import { router } from "expo-router";
-import { api, Usuario } from "../src/api";
-import { eliminarToken, obtenerToken } from "../src/auth";
+import { api, Usuario } from "@/services/api";
+import { eliminarToken, obtenerToken } from "@/lib/auth";
 
 export default function Perfil() {
   const [usuario, setUsuario] = useState<Usuario | null>(null);

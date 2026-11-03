@@ -1,4 +1,4 @@
-import { prisma } from "../db.js"
+import { prisma } from "../../db.js"
 
 // Campos que se devuelven del usuario (nunca la contraseña)
 const camposPublicos = { id: true, nombre: true, email: true, rol: true }

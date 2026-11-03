@@ -9,19 +9,10 @@ import {
 } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { api, Servicio } from "../../src/api";
-import { obtenerToken } from "../../src/auth";
-import { programarRecordatorio } from "../../src/notificaciones";
-
-// Agrega un 0 adelante: 5 -> "05"
-const dosDigitos = (n: number) => String(n).padStart(2, "0");
-
-// Date -> "AAAA-MM-DD"
-const formatearFecha = (d: Date) =>
-  `${d.getFullYear()}-${dosDigitos(d.getMonth() + 1)}-${dosDigitos(d.getDate())}`;
-
-// Date -> "HH:MM"
-const formatearHora = (d: Date) => `${dosDigitos(d.getHours())}:${dosDigitos(d.getMinutes())}`;
+import { api, Servicio } from "@/services/api";
+import { obtenerToken } from "@/lib/auth";
+import { formatearFecha, formatearHora } from "@/features/reservas/formato";
+import { programarRecordatorio } from "@/features/reservas/notificaciones";
 
 export default function NuevaReserva() {
   const { servicioId } = useLocalSearchParams<{ servicioId: string }>();

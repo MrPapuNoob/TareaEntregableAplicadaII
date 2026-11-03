@@ -1,6 +1,6 @@
 import Constants from "expo-constants";
 import { router } from "expo-router";
-import { eliminarToken } from "./auth";
+import { eliminarToken } from "@/lib/auth";
 
 // La URL viene de app.config.js (extra.apiUrl), nunca hardcodeada
 const API_URL: string = Constants.expoConfig?.extra?.apiUrl;

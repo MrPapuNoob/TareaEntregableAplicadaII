@@ -9,8 +9,9 @@ import {
   View,
 } from "react-native";
 import { router, useFocusEffect } from "expo-router";
-import { api, Servicio } from "../../src/api";
-import { decodificarToken, eliminarToken, obtenerToken } from "../../src/auth";
+import { api, Servicio } from "@/services/api";
+import { decodificarToken, eliminarToken, obtenerToken } from "@/lib/auth";
+import ServicioCard from "@/features/servicios/ServicioCard";
 
 export default function Servicios() {
   const [servicios, setServicios] = useState<Servicio[]>([]);
@@ -137,26 +138,11 @@ export default function Servicios() {
             <Text style={styles.vacio}>No hay servicios registrados</Text>
           }
           renderItem={({ item }) => (
-            <View style={styles.card}>
-              {/* Al tocar el servicio se abre su detalle */}
-              <TouchableOpacity
-                style={{ flex: 1 }}
-                onPress={() => router.push(`/servicios/${item.id}`)}
-              >
-                <Text style={styles.nombre}>{item.nombre}</Text>
-                <Text style={styles.descripcion}>{item.descripcion}</Text>
-                <Text style={styles.detalle}>Duración: {item.duracion} min</Text>
-                <Text style={styles.precio}>${item.precio}</Text>
-              </TouchableOpacity>
-              {rol === "admin" && (
-                <TouchableOpacity
-                  style={styles.botonEliminar}
-                  onPress={() => handleEliminar(item)}
-                >
-                  <Text style={styles.botonEliminarTexto}>Eliminar</Text>
-                </TouchableOpacity>
-              )}
-            </View>
+            <ServicioCard
+              servicio={item}
+              onPress={() => router.push(`/servicios/${item.id}`)}
+              onEliminar={rol === "admin" ? () => handleEliminar(item) : undefined}
+            />
           )}
         />
       )}
@@ -203,25 +189,4 @@ const styles = StyleSheet.create({
   botonCrearTexto: { color: "#fff", fontWeight: "bold" },
   error: { color: "#dc2626", textAlign: "center", marginTop: 16 },
   vacio: { textAlign: "center", color: "#6b7280", marginTop: 40 },
-  card: {
-    backgroundColor: "#fff",
-    padding: 16,
-    borderRadius: 8,
-    marginBottom: 12,
-    flexDirection: "row",
-    alignItems: "center",
-    elevation: 1,
-    gap: 8,
-  },
-  nombre: { fontSize: 16, fontWeight: "bold", color: "#111827" },
-  descripcion: { fontSize: 14, color: "#6b7280", marginTop: 2 },
-  detalle: { fontSize: 14, color: "#374151", marginTop: 6 },
-  precio: { fontSize: 16, fontWeight: "bold", color: "#059669", marginTop: 2 },
-  botonEliminar: {
-    backgroundColor: "#dc2626",
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-    borderRadius: 6,
-  },
-  botonEliminarTexto: { color: "#fff", fontWeight: "bold", fontSize: 13 },
 });

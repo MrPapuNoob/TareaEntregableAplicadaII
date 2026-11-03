@@ -11,8 +11,8 @@ import {
   View,
 } from "react-native";
 import { router } from "expo-router";
-import { api } from "../src/api";
-import { guardarToken } from "../src/auth";
+import { api } from "@/services/api";
+import { guardarToken } from "@/lib/auth";
 
 export default function Registro() {
   const [nombre, setNombre] = useState("");
